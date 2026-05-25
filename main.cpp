@@ -1,11 +1,13 @@
 /******************************************************************************
 # Author:           Andy Joy
 # Assignment:       Assignment 6
-# Date:             05/23/2026
-# Description:      This program 
-# Input:            numPeople (int), avgSlices (double), costPizza (double),
-#                   choice (char).
-# Output:           numPizzas (int), costPizzas (double), costTax (double)
+# Date:             05/24/2026
+# Description:      This program takes coin values from the user (5, 10, 25, or 
+#                   0 for end), prints a menu, and then prompts for the quantity.
+#                   If the amount deposited is sufficient, the machine will 
+#                   dispense, else it loops back and asks for more money.
+# Input:            coinVal (int), drinkChoice (char), numDrinks (int)
+# Output:           totalCost (double), balance (double)
 # Sources:          Sample 6 Code.
 #******************************************************************************/
 #include <iostream>
@@ -20,7 +22,7 @@ int main() {
   
   // Declare variables
   int coinVal;
-  double balance;
+  double balance = 0.0;
   char drinkChoice;
   int numDrinks;
   double totalCost;
@@ -66,7 +68,7 @@ int main() {
     if (coinVal == 0) {
       cout << "\nYour balance is $" << fixed << setprecision(2) << balance << endl;
 
-       // Display drink menu
+      // Display drink menu
       cout << "\nPlease pick an option ($0.25 each): " << endl;
       cout << "    C/c: Coffee" << endl;
       cout << "    T/t: Tea" << endl;
@@ -97,6 +99,7 @@ int main() {
           if (balance >= numDrinks * DRINK_COST) {
             cout << "\nYour total: $" << fixed << setprecision(2) << numDrinks * DRINK_COST << endl;
             cout << "Your balance: $" << fixed << setprecision(2) << balance - (numDrinks * DRINK_COST) << endl;
+            breakLoop = true;
             break;
           }
           else {
@@ -116,13 +119,13 @@ int main() {
             cin >> numDrinks;
           }
           while (numDrinks < 0){
-           cout << "\nInvalid Option! Please try again!" << endl;
+            cout << "\nInvalid Option! Please try again!" << endl;
             cout << "\nHow many would you like?" << endl;
             cin >> numDrinks;
           }
           if (balance >= numDrinks * DRINK_COST) {
-           cout << "\nYour total: $" << fixed << setprecision(2) << numDrinks * DRINK_COST << endl;
-           cout << "Your balance: $" << fixed << setprecision(2) << balance - (numDrinks * DRINK_COST) << endl;
+            cout << "\nYour total: $" << fixed << setprecision(2) << numDrinks * DRINK_COST << endl;
+            cout << "Your balance: $" << fixed << setprecision(2) << balance - (numDrinks * DRINK_COST) << endl;
             breakLoop = true;
             break;
           }
