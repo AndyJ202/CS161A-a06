@@ -5,7 +5,7 @@
   "git.autofetch": true,
   "git.confirmSync": false,
   "github.copilot.enable": {
-    "*": false,
+    "*": true,
     "plaintext": false,
     "markdown": false,
     "scminput": false
