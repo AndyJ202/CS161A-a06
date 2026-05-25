@@ -24,12 +24,13 @@ int main() {
   char drinkChoice;
   int numDrinks;
   double totalCost;
+  bool breakLoop = false;
 
-  cout << "Welcome to my Coffee/Tea Vending Machine!" << endl;
+  cout << "Welcome to my Coffee/Tea Vending Machine!" << endl << endl;
   
   // Loop to accept coin input until the user enters 0
   do {
-    cout << "\nEnter coins - 5, 10, or 25 only: ";
+    cout << "Enter coins - 5, 10, or 25 only: ";
     cin >> coinVal;
   
     // Input validation for coinVal
@@ -62,125 +63,90 @@ int main() {
       balance += coinVal / 100.0; // Convert cents to dollars
     }
 
-  } while (coinVal != 0);
+    if (coinVal == 0) {
+      cout << "\nYour balance is $" << fixed << setprecision(2) << balance << endl;
 
-  cout << "\nYour balance is $" << fixed << setprecision(2) << balance << endl;
+       // Display drink menu
+      cout << "\nPlease pick an option ($0.25 each): " << endl;
+      cout << "    C/c: Coffee" << endl;
+      cout << "    T/t: Tea" << endl;
+      cout << "    Q/q: Quit" << endl;
 
-  // Display drink menu
-  cout << "\nPlease pick an option ($0.25 each): " << endl;
-  cout << "    C/c: Coffee" << endl;
-  cout << "    T/t: Tea" << endl;
-  cout << "    Q/q: Quit" << endl;
+      // Drink choice input validation
+      do {
+      cin >> drinkChoice;
 
-  // Drink choice input validation
-  do {
-  cin >> drinkChoice;
+      switch (drinkChoice) {
 
-  if (drinkChoice != 'C' && drinkChoice != 'c' && drinkChoice != 'T' && drinkChoice != 't' && drinkChoice != 'Q' && drinkChoice != 'q') {
-    cout << "\nInvalid Option! Please choose a valid option!" << endl;
-  }
-  } while (drinkChoice != 'C' && drinkChoice != 'c' && drinkChoice != 'T' && drinkChoice != 't' && drinkChoice != 'Q' && drinkChoice != 'q');
+        case 'C':
+        case 'c':
+         cout << "\nHow many would you like?" << endl;
+         cin >> numDrinks;
+          while (!cin) {
+           cout << "\nInvalid Option! Please try again!" << endl;
+           cin.clear();
+           cin.ignore(100, '\n');
+           cout << "\nHow many would you like?" << endl;
+           cin >> numDrinks;
+          }
+          while (numDrinks < 0){
+           cout << "\nInvalid Option! Please try again!" << endl;
+           cout << "\nHow many would you like?" << endl;
+           cin >> numDrinks;
+          }
+          if (balance >= numDrinks * DRINK_COST) {
+            cout << "\nYour total: $" << fixed << setprecision(2) << numDrinks * DRINK_COST << endl;
+            cout << "Your balance: $" << fixed << setprecision(2) << balance - (numDrinks * DRINK_COST) << endl;
+            break;
+          }
+          else {
+            cout << "\nInsufficient balance!" << endl;
+            break;
+          }
 
-  switch (drinkChoice) {
-
-    case 'C':
-    case 'c':
-      cout << "How many would you like?" << endl;
-      cin >> numDrinks;
-      while (!cin)
-      {
-        cout << "\nInvalid Option! Please try again!" << endl;
-        cin.clear();
-        cin.ignore(100, '\n');
-        cout << "\nHow many would you like?" << endl;
-        cin >> numDrinks;
-      }
-      while (numDrinks < 0)
-      {
-        cout << "\nInvalid Option! Please try again!" << endl;
-        cout << "\nHow many would you like?" << endl;
-        cin >> numDrinks;
-      }
-      if (balance >= numDrinks * DRINK_COST) {
-        cout << "\nYour total: $" << fixed << setprecision(2) << numDrinks * DRINK_COST << endl;
-        cout << "Your balance: $" << fixed << setprecision(2) << balance - (numDrinks * DRINK_COST) << endl;
-        break;
-      }
-      else {
-        cout << "\nInsufficient balance!" << endl;
-        break;
-      }
-
-    case 'T':
-    case 't':
-      cout << "\nHow many would you like?" << endl;
-      cin >> numDrinks;
-      while (!cin)
-      {
-        cout << "\nInvalid Option! Please try again!" << endl;
-        cin.clear();
-        cin.ignore(100, '\n');
-        cout << "\nHow many would you like?" << endl;
-        cin >> numDrinks;
-      }
-      while (numDrinks < 0)
-      {
-        cout << "\nInvalid Option! Please try again!" << endl;
-        cout << "\nHow many would you like?" << endl;
-        cin >> numDrinks;
-      }
-      if (balance >= numDrinks * DRINK_COST) {
-        cout << "\nYour total: $" << fixed << setprecision(2) << numDrinks * DRINK_COST << endl;
-        cout << "Your balance: $" << fixed << setprecision(2) << balance - (numDrinks * DRINK_COST) << endl;
-        break;
-      }
-      else {
-        cout << "\nInsufficient balance!" << endl;
-        break;
-      }
+        case 'T':
+        case 't':
+          cout << "\nHow many would you like?" << endl;
+          cin >> numDrinks;
+          while (!cin){
+            cout << "\nInvalid Option! Please try again!" << endl;
+            cin.clear();
+            cin.ignore(100, '\n');
+            cout << "\nHow many would you like?" << endl;
+            cin >> numDrinks;
+          }
+          while (numDrinks < 0){
+           cout << "\nInvalid Option! Please try again!" << endl;
+            cout << "\nHow many would you like?" << endl;
+            cin >> numDrinks;
+          }
+          if (balance >= numDrinks * DRINK_COST) {
+           cout << "\nYour total: $" << fixed << setprecision(2) << numDrinks * DRINK_COST << endl;
+           cout << "Your balance: $" << fixed << setprecision(2) << balance - (numDrinks * DRINK_COST) << endl;
+            breakLoop = true;
+            break;
+          }
+          else {
+            cout << "\nInsufficient balance!" << endl;
+            break;
+          }
     
-    case 'Q':
-    case 'q':
-      break;
+        case 'Q':
+        case 'q':
+          cout << "\nYour balance: $" << fixed << setprecision(2) << balance << endl;
+          breakLoop = true;  
+          break;
+
+        default:
+          cout << "\nInvalid Option! Please choose a valid option!" << endl;
+          break;
+        }
+      } while (drinkChoice != 'C' && drinkChoice != 'c' && drinkChoice != 'T' && drinkChoice != 't' && drinkChoice != 'Q' && drinkChoice != 'q');
     }
 
+  } while (breakLoop == false);
 
   cout << "\nThank you for using my Vending Machine Program!" << endl;
 
   return 0;
 }
-
-
-/* sample run:
-Welcome to my Coffee/Tea Vending Machine!
-
-Enter coins - 5, 10, or 25 only: 5
-Enter coins - 5, 10, or 25 only: 25
-Enter coins - 5, 10, or 25 only: 25
-Enter coins - 5, 10, or 25 only: 5
-Enter coins - 5, 10, or 25 only: 10
-Enter coins - 5, 10, or 25 only: 10
-Enter coins - 5, 10, or 25 only: 0
-
-Your balance is $0.80
-
-Please pick an option ($0.25 each):
-    C/c: Coffee
-    T/t: Tea
-    Q/q: Quit
->> k
-Invalid Option! Please choose a valid option!
->> 9
-Invalid Option! Please choose a valid option!
->> c
-How many would you like?
->> f
-Invalid Option!
-How many would you like?
->> 2
-
-Your total: $0.50
-Your balance: $0.30
-
-Thank you for using my Vending Machine Program!
-*/
